@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap">
+
+
+  <title>Khadija elhabchi | QuranVerse generator app</title>
+
+
+  <style>
+    body {
+      background-color: #202632;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 600;
+      color: #cee3e8;
+    }
+
+    .attribution {
+      position: fixed;
+      bottom: 0;
+      left: 35%;
+    }
+
+    .container {
+      display: grid;
+      place-items: center;
+      width: 40%;
+      margin: 8em auto;
+      border-radius: 25px;
+      background-color: #313a49;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h3 {
+      color: #53ffa9;
+    }
+
+    .mobile {
+      display: none;
+    }
+
+    .change {
+      background-color: #53ffa9;
+      padding: 15px;
+      border-radius: 50px;
+      margin-top: 40px;
+      margin-bottom: -45px;
+      width: 25px;
+    }
+
+    .change:hover {
+      cursor: pointer;
+      box-shadow: 0 0 20px #53ffa9;
+    }
+
+    p{
+      font-family: 'Arial', sans-serif;
+      font-family: 'Noto Sans Arabic', sans-serif;
+    }
+
+    a{
+      text-decoration: none;
+      color: #cee3e8;
+    }
+
+    @media screen and (max-width: 760px) {
+
+      .mobile {
+        display: block;
+      }
+
+      .desktop {
+        display: none;
+      }
+
+      .container{
+        display: grid;
+      place-items: center;
+      width: 90%;
+      margin: 8em auto;
+      border-radius: 25px;
+      background-color: #313a49;
+      text-align: center;
+      padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h3>QuranVerse # <span id="QuranVerse-id"></span></h3>
+    <p id="QuranVerse-text"  dir="rtl">""</p>
+    <img src="images/pattern-divider-desktop.svg" alt="just a divider" class="desktop">
+    <img src="images/pattern-divider-mobile.svg" alt="just a divider" class="mobile">
+    <img src="images/rafraichir.svg" alt="click me!" class="change" onclick="fetchQuranVerse()">
+  </div>
+
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="https://khadija99-tech.github.io/MyPortfolio/">Elhabchi Khadija</a>.
+  </div>
+
+
+  <script>
+    async function fetchQuranVerse() {
+  try {
+    // Generate a random number to serve as a cache buster
+    const cacheBuster = Math.random();
+    // Fetch data from the API with cache-busting query parameter
+    const response = await fetch(`https://api.alquran.cloud/v1/ayah/random?cache=${cacheBuster}`);
+    const data = await response.json();
+    
+    // Update the HTML content with the received QuranVerse
+    document.getElementById('QuranVerse-id').textContent = data.data.numberInSurah;
+    document.getElementById('QuranVerse-text').textContent = `"${data.data.text}"`;
+  } catch (error) {
+    console.error('Error fetching QuranVerse:', error);
+  }
+}
+  
+    // Call the fetchQuranVerse function when the page loads
+    fetchQuranVerse();
+  </script>
+  
+</body>
+
+</html>
